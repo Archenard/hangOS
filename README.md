@@ -3,8 +3,9 @@ A fully open source operating system to play hangman.
 
 ## Features:
 - Hangman.
-- 32-bit.
+- 16-bit.
 - Fully custom bootloader.
+- Easy to add languages and keyboard sets.
 
 ## Building:
 ### Prerequisites:
