@@ -23,7 +23,7 @@ db 0x55, 0xAA
 
 jmp main_start
 
-m0: db "Select your parameters with arrows key and enter", 0
+m0: db "Choose settings with arrow keys and enter", 0
 m1: db "qwerty", 0
 m2: db "azerty", 0
 m3: db "english", 0
@@ -154,9 +154,11 @@ change_color_end:
 
 
 menu_nb_rows: db 3			;number of rows
+
 menu_sets:
-keyboard_type: db 0
-lang: db 0
+	keyboard_type: db 0
+	lang: db 0
+
 menu_len_rows: db 2, 2, 1		;number of elements per row
 menu_elem_start_offsets:
 	;dw 0, 14			;1st row elements offsets
@@ -172,17 +174,18 @@ menu_posy: db 0
 
 menu_calc:
 	push ax
+	push bx
+	push cx
 	push ds
+	push es
+	push si				;pointer to column offset
+	
 	mov ax, 0xb800
 	mov ds, ax
 	xor ax, ax
-	push bx
-	xor bx, bx
-	push cx
-	xor cx, cx
-	push es
 	mov es, ax
-	push si				;pointer to column offset
+	xor bx, bx
+	xor cx, cx
 	mov si, menu_elem_start_offsets
 menu_calc_loop1:
 
@@ -233,9 +236,9 @@ menu_calc_loop2_end:
 menu_calc_loop1_end:
 	pop si
 	pop es
+	pop ds
 	pop cx
 	pop bx
-	pop ds
 	pop ax
 
 
@@ -321,4 +324,4 @@ game:
 	jmp no_mov
 
 
-times 440 db 0
+times 447 db 0

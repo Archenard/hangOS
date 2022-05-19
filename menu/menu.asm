@@ -1,7 +1,9 @@
 menu_nb_rows: db 3			;number of rows
+
 menu_sets:
-keyboard_type: db 0
-lang: db 0
+	keyboard_type: db 0
+	lang: db 0
+
 menu_len_rows: db 2, 2, 1		;number of elements per row
 menu_elem_start_offsets:
 	;dw 0, 14			;1st row elements offsets

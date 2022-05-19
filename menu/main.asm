@@ -1,6 +1,6 @@
 jmp main_start
 
-m0: db "Select your parameters with arrows key and enter", 0
+m0: db "Choose settings with arrow keys and enter", 0
 m1: db "qwerty", 0
 m2: db "azerty", 0
 m3: db "english", 0
