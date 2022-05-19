@@ -17,17 +17,18 @@ menu_posy: db 0
 
 menu_calc:
 	push ax
+	push bx
+	push cx
 	push ds
+	push es
+	push si				;pointer to column offset
+	
 	mov ax, 0xb800
 	mov ds, ax
 	xor ax, ax
-	push bx
-	xor bx, bx
-	push cx
-	xor cx, cx
-	push es
 	mov es, ax
-	push si				;pointer to column offset
+	xor bx, bx
+	xor cx, cx
 	mov si, menu_elem_start_offsets
 menu_calc_loop1:
 
@@ -78,9 +79,9 @@ menu_calc_loop2_end:
 menu_calc_loop1_end:
 	pop si
 	pop es
+	pop ds
 	pop cx
 	pop bx
-	pop ds
 	pop ax
 
 
