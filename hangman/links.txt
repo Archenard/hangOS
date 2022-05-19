@@ -1,0 +1,6 @@
+main.asm
+prints.asm
+RNG.asm
+worded.asm
+designed.asm
+variables.asm
