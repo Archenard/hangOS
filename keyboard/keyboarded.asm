@@ -1,6 +1,7 @@
 keyboards:
-dw 4
-dw 30
+dw 6
+dw 32
+dw 58
 
 
 db 0x1e

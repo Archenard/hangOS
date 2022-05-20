@@ -1,6 +1,6 @@
 #!/usr/bin/env/python3
 
-f = open("editable/keyboards.txt", "r")
+f = open("editable/keyboards.ld", "r")
 files_to_read = f.read()
 f.close()
 
@@ -9,7 +9,7 @@ while "" in files_to_read:
 	del files_to_read[files_to_read.index("")]
 
 offsets = []
-where = len(files_to_read)*2
+where = (len(files_to_read)+1)*2
 text_out = ""
 
 for file_name in files_to_read:
@@ -35,6 +35,8 @@ for file_name in files_to_read:
 		text_out += "db 0x"+scan_code+"\n"
 		where += 1
 	text_out += "\n"
+
+offsets.append(where)
 
 header = "keyboards:\n"
 for offset in offsets:

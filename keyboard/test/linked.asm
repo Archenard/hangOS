@@ -90,8 +90,9 @@ print_str_end:
 
 
 keyboards:
-dw 4
-dw 30
+dw 6
+dw 32
+dw 58
 
 
 db 0x1e
@@ -151,23 +152,34 @@ db 0x11
 
 
 key_search:
-push bx
-push cx
-push di
-push es
+	push bx
+	push cx
+	push dx
+	push di
+	push es
 
-xor bx, bx
-mov es, bx
+	xor bx, bx
+	mov es, bx
 
-mov bl, [es:keyboard_type]
-shl bl, 1				;times 2, each entry is 2Bytes
-mov bx, [es:keyboards+bx]
-add bx, keyboards			;bx=address the begin of the codes
+	mov bl, [es:keyboard_type]
+	shl bl, 1				;times 2, each entry is 2 Bytes
+	
+	add bl, 2
+	mov dx, [es:keyboards+bx]
+	add dx, keyboards
+	sub bl, 2
+	
+	mov bx, [es:keyboards+bx]
+	add bx, keyboards			;bx=address the begin of the codes
 
-mov di, bx
+	mov di, bx
 
 key_not_found:
-	cmp [es:di], ah
+	
+	cmp di, dx
+	je keyboard_end
+
+	cmp ah, [es:di]
 	je key_found
 	inc di
 	jmp key_not_found
@@ -177,9 +189,11 @@ key_found:
 	mov cx, di
 	mov al, cl
 	add al, 65
-	
+
+keyboard_end:
 	pop es
 	pop di
+	pop dx
 	pop cx
 	pop bx
 	ret
@@ -393,4 +407,4 @@ change_color_end:
 	ret
 
 
-times 469 db 0
+times 446 db 0
