@@ -28,6 +28,7 @@ while "" in files:
 
 ## get the data to write the file
 
+"""
 try:
     linked_file = read_file("bootloader.asm")+"\n\n"
 
@@ -37,9 +38,15 @@ except:
     print("Error, exiting")
     print("You need to have a file named 'bootloader.asm' in this directory")
     exit()
+"""
 
 for file in files:
     linked_file += read_file(file)+"\n\n"
+
+where_write_sectors = []
+while "__sectors__" in linked_file:
+    where_write_sectors.append(linked_file.index("__sectors__"))
+    linked_file = linked_file[:where_write_sectors[-1]] + "0" + linked_file[where_write_sectors[-1]+len("__sectors__"):]
 
 if "__numberofwords__" in linked_file:
     words = read_file("words.txt").split("\n")
@@ -76,9 +83,12 @@ bytes_to_add = space_used-size_no_padding
 
 linked_file += "times "+str(bytes_to_add)+" db 0"
 
-linked_file = list(linked_file)
-linked_file[where_write_sectors] = str(sectors_used-1)
-linked_file = "".join(linked_file)
+for where_write in where_write_sectors:
+    linked_file = linked_file[:where_write] + str(sectors_used-1) + linked_file[where_write+len("0"):]
+
+#linked_file = list(linked_file)
+#linked_file[where_write_sectors] = str(sectors_used-1)
+#linked_file = "".join(linked_file)
 
 file_out = open("linked.asm", "w")
 file_out.write(linked_file)
