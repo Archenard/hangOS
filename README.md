@@ -28,8 +28,8 @@ $ qemu-system-x86_64 linked.bin
 ```
 ### Running the OS on real hardware:
 #### Linux
-After inserting your pen drive, run `lsblk -S -p -o name,model,size` and find the name of your device (probably `/dev/sdb`).
-Then run `sudo dd if=linked.bin of=<your device name>`
+After inserting your pen drive, run ```lsblk -S -p -o name,model,size``` and find the name of your device (probably `/dev/sdb`).
+Then run ```sudo dd if=linked.bin of=<your device name>```
 #### Windows
 You need a software like rufus to copy the file `linked.bin`.
 If the software don't recognize the file, you can rename it into `linked.iso`.
