@@ -12,6 +12,7 @@ keyboard_read_scan_code.asm
 search_letter.asm
 draw_gallows.asm
 win_verifier.asm
+reset_found.asm
 
 keyboarded.asm
 worded.asm

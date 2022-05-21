@@ -13,11 +13,12 @@ display_menu_start:
 	push cx
 	push di
 	push si
-	
-	mov ax, 0x0003
+
+	mov ah, 0x00			;clear screen
+	mov al, 0x03
 	int 0x10
 	
-	mov ah, 0x01
+	mov ah, 0x01			;hide cursor
 	mov cx, 0x2000
 	int 0x10
 	

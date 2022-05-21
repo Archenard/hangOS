@@ -64,6 +64,7 @@ for lang in langs:
 		content_out += "db "+'"'+word.upper()+'"'+", 0\n"
 	content_out += "\n\n\n"
 
+content_out += "max_word_length: db "+str(longest_word)+"\n"
 content_out += 'word_found: db "'+('_'*longest_word)+'", 0'
 
 file_out = open("../worded.asm", "w")
