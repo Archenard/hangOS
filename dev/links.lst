@@ -1,0 +1,17 @@
+bootloader.asm
+
+
+main.asm
+prints.asm
+rng.asm
+select_word.asm
+display_menu.asm
+menu_calc.asm
+colors.asm
+keyboard_read_scan_code.asm
+search_letter.asm
+
+keyboarded.asm
+worded.asm
+designed.asm
+variables.asm
