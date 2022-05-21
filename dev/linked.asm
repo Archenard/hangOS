@@ -7,7 +7,7 @@ mov ss, ax
 mov sp, 0x7c00
 
 mov ah, 2		;read disk
-mov al, 4		;number of sectors to read
+mov al, 5		;number of sectors to read
 mov ch, 0		;C cylinder
 mov cl, 2		;S sector
 mov dh, 0		;H head
@@ -21,6 +21,12 @@ times 510-($-$$) db 0
 db 0x55, 0xAA
 
 
+main_start:
+	xor ax, ax
+	mov es, ax
+	
+	mov byte [es:fails], 0
+	
 	call display_menu
 	call menu_calc
 
@@ -34,45 +40,70 @@ db 0x55, 0xAA
 	mov si, ok_message
 	call print_str
 
-	mov di, 320
-	mov si, word_found
-	call print_str
-
-	mov di, 960
-	mov si, pendu_0
-	call print_str
-
-	mov di, 2560
-	mov si, guess_a_letter
-	call print_str
-
 	mov ah, 0x02			;move cursor
 	xor bx, bx
 	mov dh, 16
 	mov dl, 16
 	int 0x10
 tmp:
+	mov di, 320
+	mov si, word_found
+	call print_str
+
+	mov di, 960
+	call draw_gallows
+	
+	cmp byte [es:fails], 6
+	je main_loose
+
+	mov di, 2560
+	mov si, guess_a_letter
+	call print_str
+
 	xor ax, ax
 	int 0x16
 	call key_search
 	
 	call search_letter
-	
-	mov si, [es:fails]
-	and si, 0x00ff
-	mov di, 3200
-	call print_hex
-	
-	mov di, 320
-	mov si, word_found
-	call print_str
+
+	call win_verifier
+	cmp di, 1
+	je main_win
+
 	jmp tmp
 
+
+main_win:
+	mov ah, 0x00			;clear screen
+	mov al, 0x03
+	int 0x10
+	jmp hang
+
+main_loose:
+	mov ah, 0x00			;clear screen
+	mov al, 0x03
+	int 0x10
+	
+	mov di, 0
+	call draw_gallows
+	
+	mov di, 1280
+	mov si, loose_message
+	call print_str
+	
+	mov di, 1600
+	mov si, the_word_was
+	call print_str
+	
+	mov si, [es:word_to_find]
+	call print_str
 hang:
 	jmp hang
 
 ok_message: db "Bienvvvvenue", 0
 guess_a_letter: db "Guess a letter:", 0
+loose_message: db "Oh no, you lost :(", 0
+the_word_was: db "The word was: ", 0
 
 
 print_hex:		;print the content of si, not a pointed value
@@ -598,6 +629,49 @@ search_letter_end:
 fails: db 0
 
 
+draw_gallows:			;draw at di
+	push bx
+	push si
+
+	xor bx, bx
+
+
+	mov bl, [es:fails]
+	shl bx, 1
+
+	mov si, [es:designs+bx]
+	add si, designs
+
+	call print_str
+
+	pop si
+	pop bx
+	ret
+
+
+win_verifier:				;result in di
+	push bx
+
+	xor bx, bx
+	mov di, 0
+
+win_verifier_loop:
+	cmp byte [es:word_found+bx], "_"
+	je win_verifier_end
+
+	cmp byte [es:word_found+bx], 0
+	je win_verifier_positive
+
+	inc bx
+	jmp win_verifier_loop
+
+win_verifier_positive:
+	mov di, 1
+win_verifier_end:
+	pop bx
+	ret
+
+
 keyboards:
 dw 6
 dw 32
@@ -662,23 +736,47 @@ db 0x11
 
 words_langs:
 dw 6
-dw 18
-dw 20
+dw 22
+dw 68
 
 
 
 
 
-dw 20
-dw 29
-dw 35
-dw 41
-dw 45
-dw 50
+dw 68
+dw 77
+dw 83
+dw 89
+dw 93
+dw 101
+dw 108
+dw 114
 
 
 
-dw 57
+dw 121
+dw 127
+dw 135
+dw 140
+dw 147
+dw 155
+dw 163
+dw 170
+dw 177
+dw 182
+dw 187
+dw 195
+dw 203
+dw 207
+dw 213
+dw 220
+dw 229
+dw 237
+dw 247
+dw 255
+dw 265
+dw 272
+dw 276
 
 
 
@@ -691,90 +789,113 @@ db "COMPUTER", 0
 db "CLOCK", 0
 db "MOUSE", 0
 db "CAT", 0
-db "FART", 0
+db "RAINBOW", 0
 db "RANDOM", 0
+db "TABLE", 0
+db "SCREEN", 0
 
 
 
-db "FRANCAIS", 0
+db "ANGLE", 0
+db "ARMOIRE", 0
+db "BANC", 0
+db "BUREAU", 0
+db "CABINET", 0
+db "CARREAU", 0
+db "CHAISE", 0
+db "CLASSE", 0
+db "CLEF", 0
+db "COIN", 0
+db "COULOIR", 0
+db "DOSSIER", 0
+db "EAU", 0
+db "ECOLE", 0
+db "ENTRER", 0
+db "ESCALIER", 0
+db "ETAGERE", 0
+db "EXTERIEUR", 0
+db "FENETRE", 0
+db "INTERIEUR", 0
+db "LAVABO", 0
+db "LIT", 0
+db "MARCHE", 0
 
 
 
-word_found: db "________", 0
+word_found: db "_________", 0
 
 designs:
 dw 14
-dw 50
-dw 102
-dw 162
-dw 222
-dw 283
-dw 351
+dw 96
+dw 194
+dw 300
+dw 406
+dw 513
+dw 627
 
 
-pendu_0:
-db "+-------+", 10
-db "|", 10
-db "|", 10
-db "|", 10
-db "|", 10
-db "|", 10
-db "==============", 10
+
+db "       +-------+", 10
+db "       |", 10
+db "       |", 10
+db "       |", 10
+db "       |", 10
+db "       |", 10
+db "    ==============", 10
 db 0
 
-db "+-------+", 10
-db "|       |", 10
-db "|       O", 10
-db "|", 10
-db "|", 10
-db "|", 10
-db "==============", 10
+db "       +-------+", 10
+db "       |       |", 10
+db "       |       O", 10
+db "       |", 10
+db "       |", 10
+db "       |", 10
+db "    ==============", 10
 db 0
 
-db "+-------+", 10
-db "|       |", 10
-db "|       O", 10
-db "|       |", 10
-db "|", 10
-db "|", 10
-db "==============", 10
+db "       +-------+", 10
+db "       |       |", 10
+db "       |       O", 10
+db "       |       |", 10
+db "       |", 10
+db "       |", 10
+db "    ==============", 10
 db 0
 
-db "+-------+", 10
-db "|       |", 10
-db "|       O", 10
-db "|      -|", 10
-db "|", 10
-db "|", 10
-db "==============", 10
+db "       +-------+", 10
+db "       |       |", 10
+db "       |       O", 10
+db "       |      -|", 10
+db "       |", 10
+db "       |", 10
+db "    ==============", 10
 db 0
 
-db "+-------+", 10
-db "|       |", 10
-db "|       O", 10
-db "|      -|-", 10
-db "|", 10
-db "|", 10
-db "==============", 10
+db "       +-------+", 10
+db "       |       |", 10
+db "       |       O", 10
+db "       |      -|-", 10
+db "       |", 10
+db "       |", 10
+db "    ==============", 10
 db 0
 
-db "+-------+", 10
-db "|       |", 10
-db "|       O", 10
-db "|      -|-", 10
-db "|      |", 10
-db "|", 10
-db "==============", 10
+db "       +-------+", 10
+db "       |       |", 10
+db "       |       O", 10
+db "       |      -|-", 10
+db "       |      |", 10
+db "       |", 10
+db "    ==============", 10
 db 0
 
-pendu_7:
-db "+-------+", 10
-db "|       |", 10
-db "|       O", 10
-db "|      -|-", 10
-db "|      | |", 10
-db "|", 10
-db "==============", 10
+db "       +-------+", 10
+db "       |       |", 10
+db "       |       O", 10
+db "       |      -|-", 10
+db "       |      | |", 10
+db "       |", 10
+db "    ==============", 10
 db 0
 
 
@@ -782,4 +903,4 @@ db 0
 word_to_find: dw 0
 
 
-times 479 db 0
+times 316 db 0

@@ -10,6 +10,8 @@ menu_calc.asm
 colors.asm
 keyboard_read_scan_code.asm
 search_letter.asm
+draw_gallows.asm
+win_verifier.asm
 
 keyboarded.asm
 worded.asm
