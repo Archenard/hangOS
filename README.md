@@ -39,4 +39,4 @@ Then run
 sudo dd if=linked.bin of=<your device name>
 ```
 #### Windows
-You need a software like <a href="https://rufus.ie">rufus</a> to copy the file `linked.bin`.
+You need a software like <a href="https://rufus.ie">rufus</a> to copy the file `hangOS.iso`.
