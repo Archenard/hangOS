@@ -5,7 +5,8 @@ A fully open source operating system to play hangman.
 - Hangman.
 - 16-bit.
 - Fully custom bootloader.
-- Easy to add languages and keyboard layouts.
+- Easy to add words.
+- Usable with azerty keyboards (french words included).
 
 ## Building:
 ### Prerequisites:
@@ -20,7 +21,7 @@ $ sudo apt install qemu-system-x86 python3
 ```
 $ sudo pacman -S qemu-system-x86 python3
 ```
-After installing the required packages run `python3 src/linker.py` and the bin file will be located at  `linked.bin` 
+After installing the required packages run `python3 src/linker.py` and the binary file will be located at  `hangOS.iso` 
 ## Running the OS:
 ### Running the OS on QEMU:
 ```
@@ -38,5 +39,4 @@ Then run
 sudo dd if=linked.bin of=<your device name>
 ```
 #### Windows
-You need a software like rufus to copy the file `linked.bin`.
-If the software don't recognize the file, you can rename it into `linked.iso`.
+You need a software like <a href="rufus.ie">rufus</a> to copy the file `linked.bin`.
