@@ -1,8 +1,0 @@
-computer
-clock
-mouse
-cat
-rainbow
-random
-table
-screen

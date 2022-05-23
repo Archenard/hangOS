@@ -1,4 +1,0 @@
-main.asm
-prints.asm
-colors.asm
-menu.asm
