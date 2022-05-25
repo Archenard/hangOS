@@ -1,5 +1,5 @@
 # hangOS
-A fully open source operating system to play hangman.
+hangOS (or hangman OS) is a fully open source operating system to play hangman.
 
 ## Features:
 - Hangman.
