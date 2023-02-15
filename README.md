@@ -1,5 +1,5 @@
 # hangOS
-A fully open source operating system to play hangman.
+hangOS (or hangman OS) is a fully open source operating system to play hangman.
 
 ## Features:
 - Hangman.
@@ -40,4 +40,3 @@ sudo dd if=hangOS.iso of=<your device name>
 ```
 #### Windows
 You need a software like <a href="https://rufus.ie">rufus</a> to copy the file `hangOS.iso`.
-
