@@ -106,7 +106,7 @@ main_game_end_common:
 	call print_str
 
 	mov di, 2080
-	mov si, press_enter_to_replay
+	mov si, press_enter_to_play_again
 	call print_str
 
 	mov di, 3768
@@ -128,6 +128,6 @@ guess_a_letter: db "Guess a letter:", 0
 loose_message: db "Oh no, you lost :(", 0
 win_message: db "Bravo! You won :)", 0
 the_word_was: db "The word was: ", 0
-press_enter_to_replay: db "Press enter to replay", 0
+press_enter_to_play_again: db "Press enter to play again", 0
 credits: db "hangOS, by Archenard", 0
 my_github: db "https://github.com/Archenard/hangOS", 0
